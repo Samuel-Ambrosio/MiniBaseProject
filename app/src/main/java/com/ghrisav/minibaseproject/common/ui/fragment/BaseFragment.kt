@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import com.ghrisav.minibaseproject.common.ui.activity.BaseActivity
 import com.ghrisav.minibaseproject.common.ui.viewmodel.BaseViewModel
 
 abstract class BaseFragment: Fragment() {
@@ -21,6 +22,20 @@ abstract class BaseFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    /* Public functions */
+    fun setLoading(visible: Boolean) = applyIntoBaseActivity { it.setLoading(visible) }
+    fun showToolbar() = applyIntoBaseActivity { it.showToolbar() }
+    fun showBottomNavigation() = applyIntoBaseActivity { it.showBottomNavigation() }
+    fun hideToolbar() = applyIntoBaseActivity { it.hideToolbar() }
+    fun hideBottomNavigation() = applyIntoBaseActivity { it.hideBottomNavigation() }
+
+    /* Private functions */
+    private fun applyIntoBaseActivity(action: (baseActivity: BaseActivity) -> Unit) {
+        if (activity is BaseActivity) {
+            action(activity as BaseActivity)
+        }
     }
 
     /* Abstract functions */

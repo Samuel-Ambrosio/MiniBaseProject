@@ -12,6 +12,7 @@ import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.ghrisav.minibaseproject.R
 import com.ghrisav.minibaseproject.common.extensions.TAG
+import com.ghrisav.minibaseproject.common.ui.activity.BaseActivity
 import com.ghrisav.minibaseproject.common.ui.viewmodel.BaseViewModel
 
 abstract class BaseDialogFragment: DialogFragment() {
@@ -45,6 +46,9 @@ abstract class BaseDialogFragment: DialogFragment() {
         setUpWindow()
     }
 
+    /* Public functions */
+    fun setLoading(visible: Boolean) = applyIntoBaseActivity { it.setLoading(visible) }
+
     /* Private functions */
     private fun setUpWindow() {
         try {
@@ -64,6 +68,12 @@ abstract class BaseDialogFragment: DialogFragment() {
             WindowManager.LayoutParams.WRAP_CONTENT
         } else {
             (layoutMeasure * layoutFactor).toInt()
+        }
+    }
+
+    private fun applyIntoBaseActivity(action: (baseActivity: BaseActivity) -> Unit) {
+        if (activity is BaseActivity) {
+            action(activity as BaseActivity)
         }
     }
 
