@@ -10,7 +10,7 @@ import com.ghrisav.minibaseproject.common.extensions.doVisible
 import com.ghrisav.minibaseproject.common.extensions.doVisibleOrGone
 import com.ghrisav.minibaseproject.databinding.ActivityBaseBinding
 
-abstract class BaseActivity: AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBaseBinding
 
@@ -30,7 +30,8 @@ abstract class BaseActivity: AppCompatActivity() {
 
     /* Private functions */
     private fun setUpBottomNavigation() {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.base__host__fragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.base__host__fragment) as NavHostFragment
         val navController = navHostFragment.navController
         NavigationUI.setupWithNavController(binding.baseViewBottomNav, navController)
     }

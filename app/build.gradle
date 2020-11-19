@@ -26,13 +26,13 @@ android {
 
     productFlavors {
         local {
-            buildConfigField "String", "API_BASE_PATH", "\"https://dev.es/api/\""
+            buildConfigField "String", "API_BASE_PATH", "\"https://jsonplaceholder.typicode.com/\""
         }
         pre {
-            buildConfigField "String", "API_BASE_PATH", "\"https://pre.es/api/\""
+            buildConfigField "String", "API_BASE_PATH", "\"https://jsonplaceholder.typicode.com/\""
         }
         pro {
-            buildConfigField "String", "API_BASE_PATH", "\"https://pro.es/api/\""
+            buildConfigField "String", "API_BASE_PATH", "\"https://jsonplaceholder.typicode.com/\""
         }
     }
 

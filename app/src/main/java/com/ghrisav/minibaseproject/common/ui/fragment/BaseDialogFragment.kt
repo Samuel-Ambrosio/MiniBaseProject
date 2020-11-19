@@ -8,14 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.FragmentNavigator
-import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import com.ghrisav.minibaseproject.R
 import com.ghrisav.minibaseproject.common.extensions.TAG
-import com.ghrisav.minibaseproject.common.ui.activity.BaseActivity
-import com.ghrisav.minibaseproject.common.ui.viewmodel.BaseViewModel
+import com.ghrisav.minibaseproject.common.extensions.setupSnackbar
+import com.google.android.material.snackbar.Snackbar
 
-abstract class BaseDialogFragment: DialogFragment() {
+abstract class BaseDialogFragment : DialogFragment(), BaseFragmentInterface {
 
     companion object {
         const val WRAP_CONTENT = -1f
@@ -38,6 +37,9 @@ abstract class BaseDialogFragment: DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeNavigation(viewLifecycleOwner, getViewModel(), findNavController())
+        observeLoading(viewLifecycleOwner, getViewModel(), this::setLoading)
+        setupSnackbar(this, getViewModel().getSnackbarError(), Snackbar.LENGTH_LONG)
         onViewCreatedDialogFragment()
     }
 
@@ -47,7 +49,7 @@ abstract class BaseDialogFragment: DialogFragment() {
     }
 
     /* Public functions */
-    fun setLoading(visible: Boolean) = applyIntoBaseActivity { it.setLoading(visible) }
+    fun setLoading(visible: Boolean) = applyIntoBaseActivity(activity) { it.setLoading(visible) }
 
     /* Private functions */
     private fun setUpWindow() {
@@ -55,8 +57,8 @@ abstract class BaseDialogFragment: DialogFragment() {
             val displayRectangle = Rect()
             dialog?.window?.decorView?.getWindowVisibleDisplayFrame(displayRectangle)
             dialog?.window?.setLayout(
-                    setUpLayoutMeasure(displayRectangle.width(), displayRectangleWidthFactor()),
-                    setUpLayoutMeasure(displayRectangle.height(), displayRectangleHeightFactor())
+                setUpLayoutMeasure(displayRectangle.width(), displayRectangleWidthFactor()),
+                setUpLayoutMeasure(displayRectangle.height(), displayRectangleHeightFactor())
             )
         } catch (e: Exception) {
             Log.e(TAG, e.message ?: "Error setting up window.")
@@ -71,29 +73,13 @@ abstract class BaseDialogFragment: DialogFragment() {
         }
     }
 
-    private fun applyIntoBaseActivity(action: (baseActivity: BaseActivity) -> Unit) {
-        if (activity is BaseActivity) {
-            action(activity as BaseActivity)
-        }
-    }
-
     /* Abstract functions */
     abstract fun displayRectangleWidthFactor(): Float
 
     abstract fun displayRectangleHeightFactor(): Float
 
-    abstract fun getViewModel(): BaseViewModel
-
-    abstract fun onCreateBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View?
-
     abstract fun onViewCreatedDialogFragment()
 
     /* Open functions */
     open fun onCreateDialogFragment() { /* No-op */ }
-
-    open fun getExtras(): FragmentNavigator.Extras = FragmentNavigatorExtras()
 }

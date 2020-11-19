@@ -4,49 +4,57 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.FragmentNavigator
-import androidx.navigation.fragment.FragmentNavigatorExtras
-import com.ghrisav.minibaseproject.common.ui.activity.BaseActivity
-import com.ghrisav.minibaseproject.common.ui.viewmodel.BaseViewModel
+import androidx.navigation.fragment.findNavController
+import com.ghrisav.minibaseproject.common.extensions.setupSnackbar
+import com.google.android.material.snackbar.Snackbar
 
-abstract class BaseFragment: Fragment() {
+abstract class BaseFragment : Fragment(), BaseFragmentInterface {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         onCreateFragment()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return onCreateBinding(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeNavigation(viewLifecycleOwner, getViewModel(), findNavController())
+        observeLoading(viewLifecycleOwner, getViewModel(), this::setLoading)
+        setupSnackbar(this, getViewModel().getSnackbarError(), Snackbar.LENGTH_LONG)
+        onViewCreatedFragment()
     }
 
     /* Public functions */
-    fun setLoading(visible: Boolean) = applyIntoBaseActivity { it.setLoading(visible) }
-    fun showToolbar() = applyIntoBaseActivity { it.showToolbar() }
-    fun showBottomNavigation() = applyIntoBaseActivity { it.showBottomNavigation() }
-    fun hideToolbar() = applyIntoBaseActivity { it.hideToolbar() }
-    fun hideBottomNavigation() = applyIntoBaseActivity { it.hideBottomNavigation() }
+    fun setLoading(visible: Boolean) = applyIntoBaseActivity(activity) { it.setLoading(visible) }
+    fun showToolbar() = applyIntoBaseActivity(activity) { it.showToolbar() }
+    fun showBottomNavigation() = applyIntoBaseActivity(activity) { it.showBottomNavigation() }
+    fun hideToolbar() = applyIntoBaseActivity(activity) { it.hideToolbar() }
+    fun hideBottomNavigation() = applyIntoBaseActivity(activity) { it.hideBottomNavigation() }
 
-    /* Private functions */
-    private fun applyIntoBaseActivity(action: (baseActivity: BaseActivity) -> Unit) {
-        if (activity is BaseActivity) {
-            action(activity as BaseActivity)
+    fun setOnBackPressedCallback(isEnabled: Boolean = true, handleOnBackPressed: () -> Unit) {
+        val onBackPressedCallback = object : OnBackPressedCallback(isEnabled) {
+            override fun handleOnBackPressed() {
+                handleOnBackPressed()
+            }
         }
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            onBackPressedCallback
+        )
     }
 
     /* Abstract functions */
-    abstract fun getViewModel(): BaseViewModel
-
-    abstract fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-
     abstract fun onViewCreatedFragment()
 
     /* Open functions */
     open fun onCreateFragment() {/* No-op */ }
-
-    open fun getExtras(): FragmentNavigator.Extras = FragmentNavigatorExtras()
 }
