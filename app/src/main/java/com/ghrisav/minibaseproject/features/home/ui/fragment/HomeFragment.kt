@@ -3,7 +3,6 @@ package com.ghrisav.minibaseproject.features.home.ui.fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import com.ghrisav.minibaseproject.common.ui.fragment.BaseFragment
 import com.ghrisav.minibaseproject.common.ui.viewmodel.BaseViewModel
@@ -28,10 +27,7 @@ class HomeFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    ) = FragmentHomeBinding.inflate(inflater, container, false).apply { binding = this }.root
 
     override fun onViewCreatedFragment() {
         homeViewModel.getAlbums().observe(viewLifecycleOwner, {

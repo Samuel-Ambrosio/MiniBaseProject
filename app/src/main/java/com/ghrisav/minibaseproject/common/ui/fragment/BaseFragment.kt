@@ -21,20 +21,17 @@ abstract class BaseFragment : Fragment(), BaseFragmentInterface {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return onCreateBinding(inflater, container, savedInstanceState)
-    }
+    ): View? = onCreateBinding(inflater, container, savedInstanceState)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeNavigation(viewLifecycleOwner, getViewModel(), findNavController())
-        observeLoading(viewLifecycleOwner, getViewModel(), this::setLoading)
-        setupSnackbar(this, getViewModel().getSnackbarError(), Snackbar.LENGTH_LONG)
+        observeLoadingFullScreen(viewLifecycleOwner, getViewModel(), this::setFullScreenLoading)
+        setupSnackbar(this, getViewModel().isSnackBarError(), Snackbar.LENGTH_LONG)
         onViewCreatedFragment()
     }
 
     /* Public functions */
-    fun setLoading(visible: Boolean) = applyIntoBaseActivity(activity) { it.setLoading(visible) }
     fun showToolbar() = applyIntoBaseActivity(activity) { it.showToolbar() }
     fun showBottomNavigation() = applyIntoBaseActivity(activity) { it.showBottomNavigation() }
     fun hideToolbar() = applyIntoBaseActivity(activity) { it.hideToolbar() }
@@ -50,6 +47,11 @@ abstract class BaseFragment : Fragment(), BaseFragmentInterface {
             viewLifecycleOwner,
             onBackPressedCallback
         )
+    }
+
+    /* Private functions */
+    private fun setFullScreenLoading(visible: Boolean) = applyIntoBaseActivity(activity) {
+        it.setFullScreenLoading(visible)
     }
 
     /* Abstract functions */

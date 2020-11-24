@@ -22,7 +22,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     /* Public functions */
-    fun setLoading(visible: Boolean) = binding.baseIncludeLoading.root.doVisibleOrGone { visible }
+    fun setFullScreenLoading(visible: Boolean) = binding.baseIncludeLoading.root.doVisibleOrGone { visible }
     fun showToolbar() = binding.baseIncludeToolbar.root.doVisible()
     fun showBottomNavigation() = binding.baseViewBottomNav.doVisible()
     fun hideToolbar() = binding.baseIncludeToolbar.root.doGone()

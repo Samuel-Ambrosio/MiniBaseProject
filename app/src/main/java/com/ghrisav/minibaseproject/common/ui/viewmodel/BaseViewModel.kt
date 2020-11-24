@@ -11,14 +11,14 @@ import kotlinx.coroutines.cancel
 
 abstract class BaseViewModel : ViewModel() {
 
+    protected val fullScreenLoading = MutableLiveData<Event<Boolean>>()
+    protected val snackBarError = MutableLiveData<Event<String>>()
     private val navigation = MutableLiveData<Event<NavigationCommand>>()
-    private val loading = MutableLiveData<Event<Boolean>>()
-    private val snackbarError = MutableLiveData<Event<String>>()
     private val requestsCompleted = MutableLiveData<List<Boolean>>()
 
+    fun isLoadingFullScreen() = fullScreenLoading.toLiveData()
+    fun isSnackBarError() = snackBarError.toLiveData()
     fun getNavigation() = navigation.toLiveData()
-    fun getSnackbarError() = snackbarError.toLiveData()
-    fun isLoading() = loading.toLiveData()
     fun getRequestsCompleted() = requestsCompleted.toLiveData()
 
     fun navigate(directions: NavDirections) {
@@ -37,10 +37,6 @@ abstract class BaseViewModel : ViewModel() {
         val listAux = requestsCompleted.value?.toMutableList()
         listAux?.let { listAux[position] = true }
         requestsCompleted.value = listAux?.toList()
-    }
-
-    fun setSnackbarError(message: String) {
-        snackbarError.postValue(Event(message))
     }
 
     override fun onCleared() {

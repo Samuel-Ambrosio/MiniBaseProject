@@ -33,12 +33,12 @@ interface BaseFragmentInterface {
         })
     }
 
-    fun observeLoading(
+    fun observeLoadingFullScreen(
         viewLifecycleOwner: LifecycleOwner,
         viewModel: BaseViewModel,
         setLoading: (Boolean) -> Unit
     ) {
-        viewModel.isLoading().observe(viewLifecycleOwner, {
+        viewModel.isLoadingFullScreen().observe(viewLifecycleOwner, {
             it.getContentIfNotHandled()?.let { isLoading ->
                 setLoading(isLoading)
             }
