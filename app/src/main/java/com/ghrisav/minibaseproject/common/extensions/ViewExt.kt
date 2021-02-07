@@ -27,11 +27,12 @@ fun View.doVisibleOrInvisible(condition: () -> Boolean) {
     doVisibleOr(View.INVISIBLE, condition)
 }
 
-fun View?.setMargins(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int = 0) {
-    val layoutParams = this?.layoutParams
-    if (layoutParams is ViewGroup.MarginLayoutParams) {
-        layoutParams.setMargins(left, top, right, bottom)
-        this?.layoutParams = layoutParams
+fun View?.setMargins(left: Int? = null, top: Int? = null, right: Int? = null, bottom: Int? = null) {
+    this?.layoutParams<ViewGroup.MarginLayoutParams> {
+        left?.run { leftMargin = this.toPx() }
+        top?.run { topMargin = this.toPx() }
+        right?.run { rightMargin = this.toPx() }
+        bottom?.run { bottomMargin = this.toPx() }
     }
 }
 
@@ -54,4 +55,8 @@ fun View.setOnSingleClickListener(action: () -> Unit) {
 /* Private ext functions */
 private fun View.doVisibleOr(orVisibility: Int, condition: () -> Boolean) {
     visibility = if (condition()) View.VISIBLE else orVisibility
+}
+
+private inline fun <reified T : ViewGroup.LayoutParams> View.layoutParams(block: T.() -> Unit) {
+    if (layoutParams is T) block(layoutParams as T)
 }

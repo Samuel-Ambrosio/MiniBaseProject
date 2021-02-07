@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/custom_view__container__main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/custom_view_scene">
+
+    <View
+        android:id="@+id/custom_view__view__middle_separator"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/custom_view__container__back_left"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/custom_view__container__back_right"
+        app:layout_constraintStart_toStartOf="@id/custom_view__view__middle_separator"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@android:color/holo_red_light"
+        tools:visibility="visible" />
+
+    <FrameLayout
+        android:id="@+id/custom_view__container__back_right"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/custom_view__container__back_left"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@android:color/holo_green_light"
+        tools:visibility="visible" />
+
+    <FrameLayout
+        android:id="@+id/custom_view__container__front"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@android:color/holo_blue_bright"
+        tools:visibility="visible" />
+
+    <FrameLayout
+        android:id="@+id/custom_view__container__swiped"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@android:color/darker_gray"
+        tools:visibility="visible"/>
+</androidx.constraintlayout.motion.widget.MotionLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomView">
+        <attr name="frontLayout" format="reference" />
+        <attr name="backLeftLayout" format="reference" />
+        <attr name="backRightLayout" format="reference" />
+        <attr name="swipedLayout" format="reference" />
+        <attr name="middlePointMarginLeft" format="integer" />
+        <attr name="middlePointMarginRight" format="integer" />
+    </declare-styleable>
+</resources>
