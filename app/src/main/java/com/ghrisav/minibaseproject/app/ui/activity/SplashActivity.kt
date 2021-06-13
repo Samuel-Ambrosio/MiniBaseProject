@@ -6,8 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ghrisav.minibaseproject.R
 import com.ghrisav.minibaseproject.app.ui.viewmodel.SplashViewModel
 import com.ghrisav.minibaseproject.common.constants.DELAY_SPLASH
-import kotlinx.coroutines.*
-import org.koin.android.viewmodel.ext.android.viewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SplashActivity: AppCompatActivity() {
 

@@ -24,8 +24,7 @@
     </style>
 
     <style name="FadeDialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/fragment_fade_enter</item>
-        <item name="android:windowExitAnimation">@anim/fragment_fade_exit</item>
+        <item name="android:windowEnterAnimation">@anim/nav_default_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/nav_default_exit_anim</item>
     </style>
-
 </resources>

@@ -9,7 +9,7 @@ import com.ghrisav.minibaseproject.common.ui.fragment.BaseFragment
 import com.ghrisav.minibaseproject.common.ui.viewmodel.BaseViewModel
 import com.ghrisav.minibaseproject.databinding.FragmentHomeBinding
 import com.ghrisav.minibaseproject.features.home.ui.viewmodel.HomeViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment() {
 
